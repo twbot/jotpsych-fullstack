@@ -118,6 +118,6 @@ Complete the given Flask API and React application, expand them based on the tas
 
 ## Submission
 
-Please fork this repository and submit your completed code via a link to your forked repository.
+Please clone this repository (don't fork!) to your own account and submit your completed code and write up via email to jackson@smartscribe.health.
 
 Good luck!
