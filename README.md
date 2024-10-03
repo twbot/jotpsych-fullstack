@@ -85,6 +85,26 @@ Complete the given Flask API and React application, expand them based on the tas
 1. Change the mock transcription function so that it takes a random amount of time between 5 and 15 seconds to return.
 2. Make it so that the backend can handle multiple users submitting recordings at the same time, and still serve profile information to other users.
 
+### Distributed Processing
+
+1. Set up a Celery worker and Redis as a message broker for distributed task processing.
+2. Move the dummy transcription task to a Celery worker.
+3. Implement a task queue system that allows for horizontal scaling of the transcription process.
+4. Update the backend to submit transcription jobs to the Celery queue and retrieve results asynchronously.
+5. Implement a way for the frontend to poll for the status of the transcription job and display the result when it's ready.
+
+### Planning for Production
+
+1. Create a diagram or detailed notes outlining how you would scale this system for production use.
+2. Consider and address the following challenges:
+   - High availability and fault tolerance
+   - Security concerns (especially regarding user data and audio files)
+   - Performance optimization
+   - Monitoring and logging
+   - Deployment strategy (e.g., containerization, CI/CD)
+3. Propose possible solutions or architectures to address these challenges.
+4. Include your diagram and notes in the `notes.md` file.
+
 ### Anything else
 
 1. Use the rest of your time to show us your skills and add something else to the application. Make the recorder more fully featured, add additional security, explain how you would build this for enterprise scale, etc. Show insight and initiative!
