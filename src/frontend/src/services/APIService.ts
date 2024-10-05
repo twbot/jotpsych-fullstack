@@ -5,7 +5,7 @@ class APIService {
 
   private constructor() {
     this.baseUrl = "http://localhost:3002";
-    this.appVersion = "1.0.0";
+    this.appVersion = "1.1.0"; // Start with an old version
   }
 
   public static getInstance(): APIService {
@@ -15,35 +15,56 @@ class APIService {
     return APIService.instance;
   }
 
+  public getAppVersion(): string {
+    return this.appVersion;
+  }
+
+  public updateAppVersion(newVersion: string): void {
+    this.appVersion = newVersion;
+  }
+
   public async request(
     endpoint: string,
     method: string,
     body?: any,
-    auth: boolean = false
+    auth: boolean = false,
+    isFormData: boolean = false
   ): Promise<any> {
     const headers: HeadersInit = {
-      "Content-Type": "application/json",
       "app-version": this.appVersion,
     };
 
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
+    }
+
     if (auth) {
-      // get access token somehow
+      const token = localStorage.getItem('token');
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
     }
 
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : null,
-    });
+    try {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+        method,
+        headers,
+        body: isFormData ? body : (body ? JSON.stringify(body) : null),
+      });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+      if (response.status === 426) {
+        throw new Error("Update required");
+      }
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error("API request failed:", error);
+      throw error;
     }
-
-    return response.json();
   }
 }
 

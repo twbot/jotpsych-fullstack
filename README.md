@@ -28,6 +28,18 @@ Complete the given Flask API and React application, expand them based on the tas
      source venv/bin/activate  # On Windows use `venv\Scripts\activate`
      pip install -r requirements.txt
      ```
+   - Ensure Redis is installed:
+     - On Ubuntu/Debian: `sudo apt-get install redis-server`
+     - On macOS with Homebrew: `brew install redis`
+     - On Windows, download and install from the [official Redis website](https://redis.io/download)
+   - Start the Redis server:
+     ```sh
+     redis-server
+     ```
+   - In a new terminal, start the Celery worker:
+     ```sh
+     celery -A celery_tasks worker --loglevel=info
+     ```
    - Run the Flask API:
      ```sh
      python app.py
